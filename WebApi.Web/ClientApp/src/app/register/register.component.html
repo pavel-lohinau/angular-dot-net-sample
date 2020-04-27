@@ -1,0 +1,37 @@
+<div class="container block-to-center text-center">
+  <h1>Sign up</h1>
+  <form [formGroup]="registerForm" class="form-signup" (ngSubmit)="submit()">
+    <input type="text" id="firstName" formControlName="firstName" class="form-control" placeholder="First name" required maxlength="20">
+    <div *ngIf="form.firstName.touched && form.firstName.invalid" class="alert alert-danger">
+      <div *ngIf="form.firstName.errors.required">First name is required.</div>
+      <div *ngIf="form.firstName.errors.minlength">First name should be 5 characters.</div>
+    </div>
+    <input type="text" formControlName="lastName" class="form-control" placeholder="Last name" required maxlength="20">
+    <div *ngIf="form.lastName.touched && form.lastName.invalid" class="alert alert-danger">
+      <div *ngIf="form.lastName.errors.required">Last name is required.</div>
+      <div *ngIf="form.lastName.errors.minlength">Last name should be 5 characters.</div>
+    </div>
+    <input type="text" formControlName="userName" class="form-control" placeholder="Username" required maxlength="20">
+    <div *ngIf="form.userName.touched && form.userName.invalid" class="alert alert-danger">
+      <div *ngIf="form.userName.errors.required">Username is required.</div>
+      <div *ngIf="form.userName.errors.minlength">Username should be 5 characters.</div>
+    </div>
+    <input type="email" formControlName="email" class="form-control" placeholder="Email" required maxlength="30">
+    <div *ngIf="form.email.touched && form.email.invalid" class="alert alert-danger">
+      <div *ngIf="form.email.errors.required">Email is required.</div>
+      <div *ngIf="form.email.errors.pattern">Please enter valid email.</div>
+    </div>
+    <input type="password" formControlName="password" class="form-control mb-3" placeholder="Password" required maxlength="30">
+    <div *ngIf="form.password.touched && form.password.invalid" class="alert alert-danger">
+      <div *ngIf="form.password.errors.required">Password is required.</div>
+      <div *ngIf="form.password.errors.minlength">Password should be 8 characters.</div>
+      <div *ngIf="form.password.errors.pattern">Password should contain at least 1 lowercase alphabetical character, at least 1 uppercase alphabetical character, at least 1 numeric character, at least one special character</div>
+    </div>
+
+    <button class="btn btn-success w-100" [disabled]="!registerForm.valid || isLoading" type="submit">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+      Sign up
+    </button>
+
+  </form>
+</div>

@@ -1,0 +1,38 @@
+<div class="container">
+  <h1 id="tableLabel">Weather forecast</h1>
+
+  <p>This component demonstrates fetching data from the server.</p>
+
+  <div class="d-flex justify-content-center" *ngIf="!customers">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="customers">
+    <thead>
+      <tr>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>State</th>
+        <th>Zipcode</th>
+        <th>Address</th>
+        <th>City</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers">
+        <td>{{ customer.FirstName }}</td>
+        <td>{{ customer.LastName }}</td>
+        <td>{{ customer.Email }}</td>
+        <td>{{ customer.Phone }}</td>
+        <td>{{ customer.State }}</td>
+        <td>{{ customer.Zipcode }}</td>
+        <td>{{ customer.Address }}</td>
+        <td>{{ customer.City }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

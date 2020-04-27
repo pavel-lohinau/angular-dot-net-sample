@@ -1,0 +1,31 @@
+<div class="container block-to-center text-center">
+  <h1>Sign in</h1>
+  <form [formGroup]="loginForm" class="form-signin" (ngSubmit)="submit()">
+    <input type="text" formControlName="userName" class="form-control" placeholder="Username" required maxlength="20">
+    <div *ngIf="form.userName.touched && form.userName.invalid" class="alert alert-danger">
+      <div *ngIf="form.userName.errors.required">Username is required.</div>
+      <div *ngIf="form.userName.errors.minlength">Username should be 5 characters.</div>
+    </div>
+
+    <input type="password" formControlName="password" class="form-control" placeholder="Password" required
+      maxlength="30">
+    <div *ngIf="form.password.touched && form.password.invalid" class="alert alert-danger">
+      <div *ngIf="form.password.errors.required">Password is required.</div>
+      <div *ngIf="form.password.errors.minlength">Password should be 8 characters.</div>
+      <div *ngIf="form.password.errors.pattern">Password should contain at least 1 lowercase alphabetical character, at
+        least 1 uppercase alphabetical character, at least 1 numeric character, at least one special character</div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" formControlName="isRememberMe" value="" id="isRememberMe">
+      <label class="form-check-label" for="isRememberMe">
+        Remember me
+      </label>
+    </div>
+
+    <button [disabled]="!loginForm.valid || isLoading" class="btn btn-success w-100" type="submit">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+      Sign in
+    </button>
+  </form>
+</div>

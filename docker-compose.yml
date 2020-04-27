@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  redis_cache_server:
+    image: redis
+    container_name: redis-cache-server
+    ports:
+      - "6379:6379"
+
+  ms_sql_server:
+    image: mcr.microsoft.com/mssql/server
+    container_name: ms-sql-server
+    environment:
+      SA_PASSWORD: "1234Qwer***"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    expose:
+      - "1433"
+
+  webapi.web:
+    image: plohinau/webapiweb
+    depends_on:
+      - "redis_cache_server"
+      - "ms_sql_server"
+    build:
+      context: .
+      dockerfile: WebApi.Web/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44341
+    ports:
+      - "62951:80"
+      - "44341:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  webapi.tests:
+    image: plohinau/webapitests
+    depends_on:
+      - "redis_cache_server"
+      - "ms_sql_server"
+    build:
+      context: .
+      dockerfile: WebApi.Web/Dockerfile      
+      target: test
+    volumes: 
+      - ${BUILD_ARTIFACTSTAGINGDIRECTORY:-./tests-results/}:/tests
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+    entrypoint:
+      - dotnet
+      - test
+      - --logger
+      - trx;LogFileName=/tests/test-results.xml 
